@@ -1,0 +1,49 @@
+#!/usr/bin/env python3
+import datetime
+import os
+import linecache
+now = datetime.datetime.now()
+data1= now.strftime("%d-%m-%Y %H:%M")
+b = "Время создания страницы: " + str(data1)
+a = """<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple_Project</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/boots>
+    <link rel="stylesheet" href="https://getbootstrap.com/docs/5.0/examples/cover/cover.css">
+</head>
+<body class="d-flex h-100 text-center text-white bg-dark">
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+      <header class="mb-auto">
+        <div>
+          <h3 class="float-md-start mb-0">JUST DO IT</h3>
+          <nav class="nav nav-masthead justify-content-center float-md-end">
+          </nav>
+        </div>
+      </header>
+      <main class="px-3">
+        <h1>DEVOPSERS PAGES</h1>
+        <h1>Final project</h1>
+        </p>
+      </main>
+</html>"""
+
+for i in range(1):
+        os.popen('free | head -n 3 > t1.txt ').read()
+        os.popen('lscpu | head -n 16 >> t1.txt ').read()
+        i+=1
+
+lines = [a]
+with open(r"/home/sadmin/FP/index.html", "w") as file:
+    for  line in lines:
+        file.write(line + '\n')
+    hamlettext = open('t1.txt', 'r')
+    for k in range(1,29):
+      line1 = linecache.getline('t1.txt', k)
+      file.write('<h3>' + line1 + '</h3>' + '\n')
+      k+=1
+    file.write(b + '\n')
+os.remove('t1.txt')
