@@ -1,0 +1,47 @@
+---
+
+- name: My index for Debian or RedHat
+  hosts: all
+  become: yes
+
+  vars:
+    source_file : ./MyWebsite/index.html
+    dest_file : /var/www/html/
+  
+  tasks:
+
+   - block: # FOR DEBIAN
+
+      - name: install Apache
+        apt: name=apache2 state=latest
+
+      - name: Move my index.html
+        copy: src={{ source_file }} dest={{ dest_file }} mode=0555
+        notify: Restart Apache Debian
+   
+      - name: Start apache after reboot
+        service: name=apache2 state=started enabled=yes
+     when: ansible_os_family == "Debian"
+ 
+   - block: # FOR RedHat
+
+      - name: install httpd
+        yum: name=httpd state=latest
+
+      - name: Move my index.html
+        copy: src={{ source_file }} dest={{ dest_file }} mode=0555
+        notify: Restart Apache RedHat
+
+      - name: Start apache after reboot
+        service: name=httpd state=started enabled=yes
+     when: ansible_os_family == "RedHat"
+   
+  handlers:
+    - name: Restart Apache Debian
+      service: name=apache2 state=restarted
+    
+    - name: Restart Apache RedHat
+      service: name=httpd state=restarted
+   
+       
+      
